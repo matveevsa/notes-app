@@ -143,7 +143,9 @@ export default {
           this.notes.splice(index, 1);
         },
         editNote(index) {
-          
+
+          this.notes[index].edit = false;
+          // console.log(text)
         }
       }
 }

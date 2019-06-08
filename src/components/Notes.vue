@@ -4,7 +4,7 @@
       <div class="note-header" :class="{ full: !grid }">
         <div class="wrapper-edit">
           <p title="Click on edit" :class="note.status" @click="showEdit(index)"> {{ note.title }} </p>
-          <input @blur="cancelEdit(index)" @keyup.esc="cancelEdit(index)" type="text" v-model="notes[index].title" v-show="note.edit" @keyup.enter="noteEdit(index)" autofocus>
+          <input @blur="note.edit = false" @keyup.esc="cancelEdit(index)" type="text" v-model="note.title" v-show="note.edit" @keyup.enter="noteEdit(index)" autofocus>
         </div>
         <p style="cursor: pointer;" @click="removeNote(index)">x</p>
       </div>
@@ -45,8 +45,8 @@ export default {
       this.notes[index].edit = true;
     },
     cancelEdit(index) {
-      this.notes[index].edit = false;
-      this.notes[index].title = this.writeNote;
+        this.notes[index].edit = false;
+        this.notes[index].title = this.writeNote;
     },
     noteEdit(index) {
       // console.log(this.notes[index].title)
