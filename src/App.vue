@@ -33,7 +33,7 @@
       </div>
 
       <!-- notes list -->
-      <notes @editNote="editNote" :notes="notesFilter" :grid="grid" @remove="removeNote"/>
+      <notes :notes="notesFilter" :grid="grid" @remove="removeNote"/>
 
     </div>
    </section>
@@ -141,11 +141,6 @@ export default {
         },
         removeNote(index) {
           this.notes.splice(index, 1);
-        },
-        editNote(index) {
-
-          this.notes[index].edit = false;
-          // console.log(text)
         }
       }
 }

@@ -3,13 +3,14 @@
     <div class="note" :class="[{ full: !grid }, note.status]" v-for="(note, index) in notes" :key="index">
       <div class="note-header" :class="{ full: !grid }">
         <div class="wrapper-edit">
-          <p title="Click on edit" :class="note.status" @click="showEdit(index)"> {{ note.title }} </p>
+          <p title="Click on edit" :class="note.status" @click="showEdit(index);"> {{ note.title }} </p>
           <input @blur="note.edit = false" @keyup.esc="cancelEdit(index)" type="text" v-model="note.title" v-show="note.edit" @keyup.enter="noteEdit(index)" autofocus>
         </div>
         <p style="cursor: pointer;" @click="removeNote(index)">x</p>
       </div>
       <div class="note-body">
-        <p> {{ note.descr }} </p>
+        <p title="Click on edit" @click="showEdit(index);"> {{ note.descr }} </p>
+        <textarea @blur="note.edit = false" @keyup.esc="cancelEdit(index)" type="text" v-model="note.descr" v-show="note.edit" @keyup.enter="noteEdit(index)" autofocus></textarea>
         <span> {{ note.date }} </span>
       </div>
     </div>
@@ -31,7 +32,10 @@ export default {
   },
   data() {
     return {
-      writeNote: null
+      writeNote: {
+        title: null,
+        descr: null
+      }
     }
   },
   methods: {
@@ -40,17 +44,18 @@ export default {
       this.$emit('remove', index);
     },
     showEdit(index) {
-      this.writeNote = this.notes[index].title;
-      this.notes[index].title = '';
+      this.writeNote.title = this.notes[index].title;
+      this.writeNote.descr = this.notes[index].descr;
       this.notes[index].edit = true;
     },
     cancelEdit(index) {
         this.notes[index].edit = false;
-        this.notes[index].title = this.writeNote;
+        this.notes[index].title = this.writeNote.title;
+        this.notes[index].descr = this.writeNote.descr;
     },
     noteEdit(index) {
-      // console.log(this.notes[index].title)
-      this.$emit('editNote', index);
+      this.notes[index].date = new Date(Date.now()).toLocaleString();
+      this.notes[index].edit = false;
     }
   }
 }
